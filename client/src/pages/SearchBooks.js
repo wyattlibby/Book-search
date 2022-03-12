@@ -14,12 +14,10 @@ const SearchBooks = () => {
  
   const [searchInput, setSearchInput] = useState('');
 
-  
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
 
   const [saveBookFn, {error}] = useMutation(saveBook );
 
-  nup
   useEffect(() => {
     return () => saveBookIds(savedBookIds);
   });
@@ -36,7 +34,7 @@ const SearchBooks = () => {
       const response = await searchGoogleBooks(searchInput);
 
       if (!response.ok) {
-        throw new Error('something went wrong!');
+        throw new Error('something wrong!');
       }
 
       const { items } = await response.json();
@@ -93,7 +91,7 @@ const SearchBooks = () => {
                   onChange={(e) => setSearchInput(e.target.value)}
                   type='text'
                   size='lg'
-                  placeholder='Search for a book'
+                  placeholder='Search for book'
                 />
               </Col>
               <Col xs={12} md={4}>
@@ -110,7 +108,7 @@ const SearchBooks = () => {
         <h2>
           {searchedBooks.length
             ? `Viewing ${searchedBooks.length} results:`
-            : 'Search for a book to begin'}
+            : 'Search a book to begin'}
         </h2>
         <CardColumns>
           {searchedBooks.map((book) => {
@@ -129,7 +127,7 @@ const SearchBooks = () => {
                       className='btn-block btn-info'
                       onClick={() => handleSaveBook(book.bookId)}>
                       {savedBookIds?.some((savedBookId) => savedBookId === book.bookId)
-                        ? 'This book has already been saved!'
+                        ? 'This book is saved already!'
                         : 'Save this Book!'}
                     </Button>
                   )}

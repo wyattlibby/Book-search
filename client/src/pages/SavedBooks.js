@@ -1,5 +1,6 @@
 import React from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
+import { useQuery, useMutation } from '@apollo/client';
 
 import {  deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
@@ -11,7 +12,7 @@ import { getMyBooks} from '../utils/queries'
 const SavedBooks = () => {
 
   const { loading, data } = useQuery(getMyBooks);
-  const [removeBook, {error}] = useMutation(removeBook);
+  const [removeBookFn, {error}] = useMutation(removeBook);
 
   console.log(useQuery(getMyBooks));
   
@@ -25,7 +26,7 @@ const SavedBooks = () => {
     }
 
     try {
-      const {data} = await removeBook({
+      const {data} = await removeBookFn({
         variables: { bookId }
       });
 
@@ -34,7 +35,6 @@ const SavedBooks = () => {
       console.error(err);
     }
   };
-o
   if (loading) {
     return <h2>LOADING...</h2>;
   }
@@ -43,14 +43,14 @@ o
     <>
       <Jumbotron fluid className='text-light bg-dark'>
         <Container>
-          <h1>Viewing saved books!</h1>
+          <h1>View saved books!</h1>
         </Container>
       </Jumbotron>
       <Container>
         <h2>
           {userData.savedBooks.length
             ? `Viewing ${userData.savedBooks.length} saved ${userData.savedBooks.length === 1 ? 'book' : 'books'}:`
-            : 'You have no saved books!'}
+            : 'no saved books!'}
         </h2>
         <CardColumns>
           {userData.savedBooks.map((book) => {
